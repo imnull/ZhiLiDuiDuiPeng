@@ -1,0 +1,93 @@
+<html>
+<head>
+	<title>Canvas Document</title>
+	<script type="text/javascript" src="SmartCanvas.js"></script>
+	<style type="text/css">
+	canvas{ border:1px solid #000; }
+	</style>
+</head>
+
+<body>
+<h1>Drag the shapes</h1>
+
+<script type="text/javascript">
+
+
+
+var cvs = SmartCanvas();
+cvs.size(800, 450);
+
+document.body.appendChild(cvs);
+
+var doc = cvs.createDocument();
+
+
+
+var circle = cvs.circle(20, 20, 50);
+var box = cvs.box(80, 150, 80, 60);
+var offset = { x : 0, y : 0 };
+
+function moveHandler(obj){
+	return function(e){
+		var p = T.epos(e);
+		obj.moveTo(p.x + offset.x, p.y + offset.y);
+		obj.parent.fresh();
+	}
+}
+
+var circleMove = moveHandler(circle);
+var boxMove = moveHandler(box);
+
+circle
+.mouseover(function(arg, i, act){
+	this.fillStyle = '#ccc';
+	this.parent.fresh();
+	cvs.style.cursor = 'pointer'
+})
+.mouseout(function(arg, i, act){
+	this.fillStyle = '#000';
+	this.parent.fresh();
+	cvs.style.cursor = 'default'
+})
+.mousedown(function(arg){
+	offset.x = this.args[0] - arg.x
+	offset.y = this.args[1] - arg.y;
+	cvs.addEventListener('mousemove', circleMove)
+})
+
+box
+.mouseover(function(arg, i, act){
+	this.fillStyle = '#ccc';
+	this.parent.fresh();
+	cvs.style.cursor = 'pointer'
+})
+.mouseout(function(arg, i, act){
+	this.fillStyle = '#000';
+	this.parent.fresh();
+	cvs.style.cursor = 'default'
+})
+.mousedown(function(arg){
+	offset.x = this.args[0] - arg.x
+	offset.y = this.args[1] - arg.y;
+	cvs.addEventListener('mousemove', boxMove)
+})
+
+document.addEventListener('mouseup', function(){
+	cvs.removeEventListener('mousemove', circleMove);
+	cvs.removeEventListener('mousemove', boxMove);
+	offset.x = offset.y = 0;
+});
+
+
+
+doc.add(circle);
+doc.add(box);
+
+doc.draw();
+
+</script>
+
+</body>
+
+
+</html>

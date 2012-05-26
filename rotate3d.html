@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Rotate a image as 3D</title>
+<script type="text/javascript" src="Tethys.js"></script>
+<style type="text/css">
+
+body{
+	background-color:#ccc;
+}
+
+#card{
+	background-color:#f1f1f1;
+	border:10px solid #fff;
+	width:320px;
+	height:240px;
+	position: relative;
+	top:100px;
+	margin: 0 auto;
+	text-align:center;
+	font-size:24px;
+	line-height:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="card">FFFFFFFFFF<br />FFFFFFFF<br />FFFFFFFF<br />FFFFFFFF</div>
+
+<script type="text/javascript">
+
+/*
+Tethys.get(document.body).css('-webkit-perspective', 500);
+Tethys.get(document.body).css('-webkit-perspective-origin', '2px');
+Tethys.get('#card').css('-webkit-transform-origin', 'center bottom');
+Tethys.get('#card').css('-webkit-transform', 'rotateY(30deg)');
+*/
+
+var body = Tethys.get(document.body).css().perspective(800);
+var card = Tethys.get('#card').css();
+
+body.perspectiveOrigin(0);
+card.transformOrigin('center center');
+
+
+var d = 0;
+
+Tethys.animation.regist(function(){
+	d += 3;
+	d = d % 360;
+	card.rotate(d, d)
+})
+
+</script>
+
+</body>
+
+</html>

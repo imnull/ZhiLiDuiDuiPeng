@@ -1,0 +1,73 @@
+<html>
+<head>
+	<title>Canvas Document</title>
+	<script type="text/javascript" src="SmartCanvas.js"></script>
+	<style type="text/css">
+	body{ margin: 0px; overflow: hidden; }
+	canvas{ border:0px solid #000; background-color:#ccf }
+	</style>
+</head>
+
+<body>
+<script type="text/javascript">
+
+var cvs = SmartCanvas();
+var doc = cvs.document();
+
+
+function fitCanvas(){
+	var vs = T.view();
+	cvs.size(vs.w, vs.h);
+	doc.fresh();
+}
+T.evnt(window, 'resize', fitCanvas);
+document.body.appendChild(cvs);
+
+
+var count = 3;
+
+for(var i = 0; i < count * 2; i++){
+	var box = cvs.box(i * 100 + 50, 120, 80, 80);
+	var circle = cvs.circle(i * 100 + 40 + 50, 290, 40);
+
+	box.mouseover(function(){
+		this.fillStyle = '#666';
+		cvs.style.cursor = 'pointer';
+	});
+	box.mouseout(function(){
+		this.fillStyle = '#000';
+		cvs.style.cursor = 'default';
+	});
+	box.mouseclick(function(arg, idx, name){
+		alert('My index is ' + idx);
+	})
+
+	circle.mouseover(function(){
+		this.fillStyle = '#666';
+		cvs.style.cursor = 'pointer';
+	});
+	circle.mouseout(function(){
+		this.fillStyle = '#000';
+		cvs.style.cursor = 'default';
+	});
+	circle.mouseclick(function(arg, idx, name){
+		alert('My index is ' + idx);
+	})
+	doc.add(box);
+	doc.add(circle);
+}
+
+var box = cvs.box(660, 100, 80, 100);
+box.fillStyle = '#fff'
+box.scale(1.4, 1)
+doc.add(box);
+
+fitCanvas();
+
+
+</script>
+
+</body>
+
+
+</html>

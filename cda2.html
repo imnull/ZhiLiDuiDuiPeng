@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+	<title>Canvas Document</title>
+	<script type="text/javascript" src="game.js"></script>
+	<script type="text/javascript" src="Tethys.js"></script>
+	<script type="text/javascript" src="SmartCanvas.js"></script>
+	<script type="text/javascript" src="run.js"></script>
+
+	<style type="text/css">
+	body{ margin: 0px; overflow: hidden; background-color:#ccc; }
+	canvas{ border:0px solid #000; position:absolute }
+	</style>
+</head>
+
+<body>
+<script type="text/javascript">
+
+//得分
+__SCORE__ = 0;
+//累计加分
+__SCORE_ADDER__ = 1;
+//错误累计
+__ERROR_COUNTER__ = 0;
+//允许最大错误次数
+__ERROR_COUNTER_MAX__ = 5;
+//基础翻牌预览基础时间（毫秒）
+__WAIT_TIME__ = 2500;
+//牌数一半数量。每次ddp.start调用时，按此数值x2计算。
+__START_COUNT__ = 3;
+//主题（场景）
+// fruit: 水果
+// cartoon: 卡通
+// letter: 字母
+theme = 'fruit';
+
+var cardImage = new Image();
+cardImage.src = 'images/' + theme + '.png';
+
+var cardBack = new Image();
+cardBack.src = 'images/logo.png';
+
+ddp.cardImage = cardImage;
+ddp.cardBack = cardBack;
+
+ddp.alldone = function(){
+	alert('do something');
+	__START_COUNT__ += 1;
+	ddp.start();
+}
+
+ddp.failed = function(){
+	alert('do something again');
+	__START_COUNT__ = 3;
+	__SCORE__ = 0;
+	ddp.start();
+}
+
+//发牌期间文字
+ddp.textWaiting = function(tb){
+	tb.text = 'Please waiting...';
+	tb.parent.fresh();
+}
+
+//记牌时间文字
+ddp.textStartWait = function(tb){
+	tb.text = 'You have '
+		+ (__WAIT_TIME__ / 1000)
+		+ ' seconds to catch them.';
+	tb.parent.fresh();
+}
+//开始游戏（翻牌）期间文字
+ddp.textStartGame = function(tb){
+	tb.text = 'Here we go ~';
+	tb.parent.fresh();
+}
+//显示分数
+ddp.textShowScore = function(tb){
+	tb.text = 'Score: ' + __SCORE__ 
+		+ '  Next: +' + __SCORE_ADDER__
+		+ '  Failed: ' + __ERROR_COUNTER__ + '/' + __ERROR_COUNTER_MAX__
+		;
+	tb.parent.fresh();
+}
+
+
+window.onload = function(){
+	ddp.start();
+}
+
+ddp.fitCanvas();
+
+console.log(ddp)
+</script>
+
+</body>
+
+
+</html>
